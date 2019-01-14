@@ -1,8 +1,13 @@
+
+// Requiring the dependances
+
 const express = require('express')
 const bodyParser = require('body-parser')
 const request=require('request')
 
 const app = express()
+
+// Facebook tokens
 
 const token = process.env.FB_VERIFY_TOKEN
 const access = process.env.FB_ACCESS_TOKEN
@@ -17,10 +22,10 @@ app.use(bodyParser.json())
 //ROUTES
 
 app.get('/', function(req, res){
-  res.send("Hello I am chatbot");
+  res.send("Hello,I am chatbot!");
 })
 
-//Facebook
+//Facebook Webhook
 app.get('/webhook/', function(req, res){
   if(req.query['hub.verify_token'] === token){
     res.send(req.query['hub.challenge'])
@@ -34,6 +39,7 @@ app.listen(app.get('port'), function(){
   console.log("running: port")
 })
 
+//posting data to the chatbot
 
 app.post('/webhook/', function (req, res) {
     let messaging_events = req.body.entry[0].messaging
@@ -49,11 +55,8 @@ app.post('/webhook/', function (req, res) {
         else if(text === "engine2"){
             sendTextMessage(sender, "engine 2 operationg at 55% capacity ")
         }
-        else if(text === "engine3"){
-            sendTextMessage(sender, "engine 3 is dead")
-        }
-        else if(text === "engine4"){
-            sendTextMessage(sender, "engine 4 operationg at 20% capacity")
+        else if(text === "Hello"){
+            sendTextMessage(sender, "Hello, nice to meet you!")
         }
         else {
             sendTextMessage(sender, "Please refer to spaceFeX manual to be able to chat with me about spaceEagle engine statuses.")
